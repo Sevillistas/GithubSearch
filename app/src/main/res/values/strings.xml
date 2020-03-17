@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GithubSearch</string>
+    <string name="githubSearchInput">Input username</string>
+    <string name="githubSearchSubmit">Search</string>
+</resources>
