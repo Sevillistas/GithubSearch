@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-public class HttpClient{
+public class HttpClient {
 
     private final JsonParser jsonParser;
 
@@ -18,9 +19,10 @@ public class HttpClient{
     public final int MAXIMUM_USERS = 1000;
     public boolean usersNotFound;
     public boolean requestLimitExceeded;
+    public boolean outOfConnection;
 
-    public HttpClient(){
-        jsonParser=new JsonParser();
+    public HttpClient() {
+        jsonParser = new JsonParser();
     }
 
     public ArrayList<User> readUserInfo(String userName) throws IOException, JSONException {
@@ -28,13 +30,19 @@ public class HttpClient{
         boolean isLimitReached = false;
         ArrayList<User> users = new ArrayList<>();
         totalCount = 0;
-        while(isLimitReached!=true){
-            String requestUrl = "https://api.github.com/search/users?q="+userName+"&per_page="+MAXIMUM_PER_PAGE+"&page="+Integer.toString(currentPage);
+        while (isLimitReached != true) {
+            String requestUrl = "https://api.github.com/search/users?q=" + userName + "&per_page=" + MAXIMUM_PER_PAGE + "&page=" + Integer.toString(currentPage);
             URL url = new URL(requestUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty(HEADER_ACCEPT, "application/vnd.github.v3+json");
             connection.setRequestMethod("GET");
-            connection.connect();
+            try{
+                connection.connect();
+                outOfConnection=false;
+            }
+            catch (IOException e){
+                outOfConnection=true;
+            }
             InputStream in;
             int status = connection.getResponseCode();
             if (status != HttpURLConnection.HTTP_OK) {
@@ -44,25 +52,35 @@ public class HttpClient{
             }
             String response = convertStreamToString(in);
             jsonParser.getData(response);
-            if(jsonParser.isLimitExceeded()){
-                requestLimitExceeded=true;
+
+            if (jsonParser.isLimitExceeded()) {
+                requestLimitExceeded = true;
                 return null;
             }
-            if(currentPage==1){
+            else{
+                requestLimitExceeded = false;
+            }
+
+            if (currentPage == 1) {
                 totalCount = jsonParser.getTotalCount();
             }
-            if(totalCount==0){
-                usersNotFound=true;
+
+            if (totalCount == 0) {
+                usersNotFound = true;
                 return null;
             }
-            if(totalCount <= 100){
+            else {
+                usersNotFound=false;
+            }
+
+            if (totalCount <= 100) {
                 users = jsonParser.getListUsers();
-                isLimitReached=true;
+                isLimitReached = true;
             }
             else {
                 users.addAll(jsonParser.getListUsers());
-                if(users.size()==totalCount || users.size()==MAXIMUM_USERS){
-                    isLimitReached=true;
+                if (users.size() == totalCount || users.size() == MAXIMUM_USERS) {
+                    isLimitReached = true;
                 }
                 else {
                     currentPage++;

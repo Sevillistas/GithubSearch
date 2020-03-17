@@ -44,20 +44,19 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if(users.size()>PageFragment.COUNT_ELEMENTS) {
+        if (users.size() > PageFragment.COUNT_ELEMENTS) {
             return PageFragment.COUNT_ELEMENTS;
-        }
-        else {
+        } else {
             return users.size();
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         final ImageView imageView;
         final TextView loginView, typeView;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             imageView = (ImageView) view.findViewById(R.id.image);
             loginView = (TextView) view.findViewById(R.id.login);

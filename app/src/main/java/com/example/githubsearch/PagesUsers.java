@@ -16,26 +16,26 @@ public class PagesUsers extends AppCompatActivity {
     private ArrayList<User> users;
     private PagerTabStrip tabStrip;
 
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle arguments = getIntent().getExtras();
-        if(arguments!=null){
-            users = (ArrayList<User>)arguments.get("users");
+        if (arguments != null) {
+            users = (ArrayList<User>) arguments.get("users");
             setContentView(R.layout.users_pages);
-            ViewPager pager = (ViewPager)findViewById(R.id.pager);
+            ViewPager pager = (ViewPager) findViewById(R.id.pager);
             pager.setAdapter(new PageAdapter(this, getSupportFragmentManager(), users));
             setStyleTabStrip();
         }
     }
 
-    public void setStyleTabStrip(){
-        tabStrip = (PagerTabStrip)findViewById(R.id.tabStrip);
+    public void setStyleTabStrip() {
+        tabStrip = (PagerTabStrip) findViewById(R.id.tabStrip);
         tabStrip.setDrawFullUnderline(true);
         tabStrip.setTabIndicatorColor(Color.parseColor("#E91E63"));
         for (int i = 0; i < tabStrip.getChildCount(); ++i) {
             View nextChild = tabStrip.getChildAt(i);
             if (nextChild instanceof TextView) {
-                TextView textViewToConvert = (TextView)nextChild;
+                TextView textViewToConvert = (TextView) nextChild;
                 textViewToConvert.setTypeface(ResourcesCompat.getFont(this, R.font.montserrat));
             }
         }

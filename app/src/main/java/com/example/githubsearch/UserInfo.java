@@ -24,19 +24,20 @@ public class UserInfo extends AppCompatActivity {
     private TextView userInfoScore;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getIntent().getExtras();
-        if(args!=null){
-            user=(User)args.get("user");
+        if (args != null) {
+            user = (User) args.get("user");
             setContentView(R.layout.user_info);
             bindUI();
             bindData();
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void bindUI(){
-        userInfoAvatar=(ImageView)findViewById(R.id.userInfoAvatar);
+    public void bindUI() {
+        userInfoAvatar = (ImageView) findViewById(R.id.userInfoAvatar);
         final ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
@@ -45,14 +46,14 @@ public class UserInfo extends AppCompatActivity {
         };
         userInfoAvatar.setOutlineProvider(viewOutlineProvider);
         userInfoAvatar.setClipToOutline(true);
-        userInfoLogin=(TextView)findViewById(R.id.userInfoLogin);
-        userInfoId=(TextView)findViewById(R.id.userInfoId);
-        userInfoAccountUrl=(TextView)findViewById(R.id.userInfoAccountUrl);
-        userInfoType=(TextView)findViewById(R.id.userInfoType);
-        userInfoScore=(TextView)findViewById(R.id.userInfoScore);
+        userInfoLogin = (TextView) findViewById(R.id.userInfoLogin);
+        userInfoId = (TextView) findViewById(R.id.userInfoId);
+        userInfoAccountUrl = (TextView) findViewById(R.id.userInfoAccountUrl);
+        userInfoType = (TextView) findViewById(R.id.userInfoType);
+        userInfoScore = (TextView) findViewById(R.id.userInfoScore);
     }
 
-    public void bindData(){
+    public void bindData() {
         Picasso.get().load(user.avatarUrl).into(userInfoAvatar);
         userInfoLogin.setText(user.login);
         userInfoId.setText(String.format(Locale.getDefault(), "%d", user.id));

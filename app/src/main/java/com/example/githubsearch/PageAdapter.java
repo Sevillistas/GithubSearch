@@ -12,26 +12,26 @@ public class PageAdapter extends FragmentPagerAdapter {
     private ArrayList<User> users;
     private Context context;
 
-    public PageAdapter(Context context, FragmentManager manager, ArrayList<User> users){
+    public PageAdapter(Context context, FragmentManager manager, ArrayList<User> users) {
         super(manager);
         this.users = users;
         this.context = context;
     }
 
     @Override
-    public int getCount(){
+    public int getCount() {
         Double countUsers = Double.valueOf(users.size());
-        Double countPages =  Math.ceil(countUsers/PageFragment.COUNT_ELEMENTS);
+        Double countPages = Math.ceil(countUsers / PageFragment.COUNT_ELEMENTS);
         return countPages.intValue();
     }
 
     @Override
-    public Fragment getItem(int page){
-        return(PageFragment.newInstance(page, users));
+    public Fragment getItem(int page) {
+        return (PageFragment.newInstance(page, users));
     }
 
     @Override
-    public String getPageTitle(int page){
-        return(PageFragment.getTitle(context, page));
+    public String getPageTitle(int page) {
+        return (PageFragment.getTitle(context, page));
     }
 }

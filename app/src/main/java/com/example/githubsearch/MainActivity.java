@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private HttpClient httpClient;
     private TextInputLayout githubSearchInputContainer;
     private Button githubSearchSubmit;
-    private ArrayList<User> users;
     private ProgressBar progressBar;
     private TextView message;
 
@@ -35,76 +34,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
         httpClient = new HttpClient();
         bindUI();
-        githubSearchSubmit.setOnClickListener(new View.OnClickListener(){
+        githubSearchSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    searchUsers(v);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                String username = githubSearchInputContainer.getEditText().getText().toString();
+                if (username.equals("")) {
+                    message.setText("Username shouldn't be empty");
+                    message.setVisibility(View.VISIBLE);
+                    return;
                 }
+                new DownloadUsersTask().execute(username);
             }
         });
     }
 
-
-    @SuppressLint("StaticFieldLeak")
-    public void searchUsers(View view) throws IOException, JSONException {
-
-        final String username = githubSearchInputContainer.getEditText().getText().toString();
-        if(username.equals("")){
-            message.setText("Username shouldn't be empty");
-            message.setVisibility(View.VISIBLE);
-            return;
-        }
-        new AsyncTask<Void, Void, Void>(){
-            @Override
-            protected void onPreExecute(){
-                super.onPreExecute();
-                progressBar.setVisibility(View.VISIBLE);
-                message.setVisibility(View.INVISIBLE);
-            }
-            @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    users = httpClient.readUserInfo(username);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void v){
-                progressBar.setVisibility(View.INVISIBLE);
-                if(users==null && httpClient.usersNotFound) {
-                    message.setText("Users not found");
-                    message.setVisibility(View.VISIBLE);
-                    return;
-                }
-                if(users==null && httpClient.requestLimitExceeded) {
-                    message.setText("Request limit has been exceeded");
-                    message.setVisibility(View.VISIBLE);
-                    return;
-                }
-                Intent intent = new Intent(MainActivity.this, PagesUsers.class);
-                intent.putExtra("users", users);
-                startActivity(intent);
-            }
-        }.execute();
-    }
-
-    public void bindUI(){
+    public void bindUI() {
         githubSearchInputContainer = (TextInputLayout) findViewById(R.id.githubSearchInputContainer);
         githubSearchInputContainer.setTypeface(ResourcesCompat.getFont(this, R.font.montserrat));
         githubSearchInputContainer.getEditText().setTypeface(ResourcesCompat.getFont(this, R.font.montserrat));
@@ -112,5 +62,61 @@ public class MainActivity extends AppCompatActivity {
         githubSearchSubmit.setTypeface(ResourcesCompat.getFont(this, R.font.montserrat));
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         message = (TextView) findViewById(R.id.message);
+    }
+
+    public class DownloadUsersTask extends AsyncTask<String, Void, ArrayList<User>>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+            message.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected ArrayList<User> doInBackground(String... params) {
+            String username=null;
+            ArrayList<User> users = null;
+            if(params.length>0){
+                username=params[0];
+            }
+            try{
+                users = httpClient.readUserInfo(username);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return users;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<User> users) {
+            progressBar.setVisibility(View.INVISIBLE);
+            if(users == null && httpClient.outOfConnection){
+                message.setText("Can't get connection to server. Check your internet connection");
+                message.setVisibility(View.VISIBLE);
+                return;
+            }
+            if (users == null && httpClient.usersNotFound) {
+                message.setText("Users not found");
+                message.setVisibility(View.VISIBLE);
+                return;
+            }
+            if (users == null && httpClient.requestLimitExceeded) {
+                message.setText("Request limit has been exceeded");
+                message.setVisibility(View.VISIBLE);
+                return;
+            }
+            if (users!=null) {
+                Intent intent = new Intent(MainActivity.this, PagesUsers.class);
+                intent.putExtra("users", users);
+                startActivity(intent);
+            }
+            else{
+                message.setText("Something goes wrong...");
+                message.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
     }
 }
