@@ -13,9 +13,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
-public class UserInfo extends AppCompatActivity {
+public class UserInfoActivity extends AppCompatActivity {
 
     private User user;
+
     private ImageView userInfoAvatar;
     private TextView userInfoLogin;
     private TextView userInfoId;
@@ -36,7 +37,7 @@ public class UserInfo extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void bindUI() {
+    private void bindUI() {
         userInfoAvatar = (ImageView) findViewById(R.id.userInfoAvatar);
         final ViewOutlineProvider viewOutlineProvider = new ViewOutlineProvider() {
             @Override
@@ -53,13 +54,13 @@ public class UserInfo extends AppCompatActivity {
         userInfoScore = (TextView) findViewById(R.id.userInfoScore);
     }
 
-    public void bindData() {
-        Picasso.get().load(user.avatarUrl).into(userInfoAvatar);
-        userInfoLogin.setText(user.login);
-        userInfoId.setText(String.format(Locale.getDefault(), "%d", user.id));
-        userInfoAccountUrl.setText(user.url);
-        userInfoType.setText(user.type);
-        userInfoScore.setText(String.format(Locale.getDefault(), "%2.2f", user.score));
+    private void bindData() {
+        Picasso.get().load(user.getAvatarUrl()).into(userInfoAvatar);
+        userInfoLogin.setText(user.getLogin());
+        userInfoId.setText(String.format(Locale.getDefault(), "%d", user.getId()));
+        userInfoAccountUrl.setText(user.getUrl());
+        userInfoType.setText(user.getType());
+        userInfoScore.setText(String.format(Locale.getDefault(), "%2.2f", user.getScore()));
     }
 
 }

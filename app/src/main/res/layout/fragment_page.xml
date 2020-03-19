@@ -6,10 +6,10 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".PageFragment">
+        tools:context=".PagesUsersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/githubList"
+            android:id="@+id/githubUsersList"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintWidth_percent="100"
             app:layout_constraintHeight_percent="100"

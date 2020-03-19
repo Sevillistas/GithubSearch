@@ -13,20 +13,20 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
+public class FragmentDataAdapter extends RecyclerView.Adapter<FragmentDataAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<User> users;
     private OnUserClickListener onUserClickListener;
 
-    public DataAdapter(Context context, List<User> users, OnUserClickListener listener) {
+    public FragmentDataAdapter(Context context, List<User> users, OnUserClickListener listener) {
         this.users = users;
         this.inflater = LayoutInflater.from(context);
         this.onUserClickListener = listener;
     }
 
     @Override
-    public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FragmentDataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = inflater.inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view);
@@ -34,18 +34,18 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(FragmentDataAdapter.ViewHolder holder, int position) {
         User user = users.get(position);
-        Picasso.get().load(user.avatarUrl).into(holder.imageView);
+        Picasso.get().load(user.getAvatarUrl()).into(holder.imageView);
         holder.imageView.setClipToOutline(true);
-        holder.loginView.setText(user.login);
-        holder.typeView.setText(user.type);
+        holder.loginView.setText(user.getLogin());
+        holder.typeView.setText(user.getType());
     }
 
     @Override
     public int getItemCount() {
-        if (users.size() > PageFragment.COUNT_ELEMENTS) {
-            return PageFragment.COUNT_ELEMENTS;
+        if (users.size() > PagesUsersFragment.ELEMENTS_PER_PAGE) {
+            return PagesUsersFragment.ELEMENTS_PER_PAGE;
         } else {
             return users.size();
         }

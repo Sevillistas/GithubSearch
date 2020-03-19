@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 public class JsonParser {
 
-    public JSONObject data;
+    private JSONObject data;
 
     public void getData(String response) throws JSONException {
         data = new JSONObject(response);
     }
 
-    public int getTotalCount() throws JSONException {
+    public int getTotalUsersFound() throws JSONException {
         return data.getInt("total_count");
     }
 
-    public boolean isLimitExceeded() throws JSONException {
+    public boolean isRequestLimitExceeded() throws JSONException {
         return data.has("message");
     }
 
@@ -33,7 +33,7 @@ public class JsonParser {
         return users;
     }
 
-    public User bindData(JSONObject userJson) throws JSONException {
+    private User bindData(JSONObject userJson) throws JSONException {
         String login = userJson.getString("login");
         long id = userJson.getLong("id");
         String avatar_url = userJson.getString("avatar_url");

@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="0dp"
         tools:context=".MainActivity">
     <TextView
             android:layout_width="0dp"
@@ -22,7 +23,7 @@
             app:layout_constraintTop_toBottomOf="@+id/progressBar"
             app:fontFamily="@font/montserrat"
             android:layout_marginTop="28dp" app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="462dp" app:layout_constraintBottom_toBottomOf="parent"/>
+    />
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
@@ -31,22 +32,24 @@
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="156dp"
             android:layout_marginStart="156dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="156dp" android:layout_marginRight="156dp" android:layout_marginTop="82dp"
+            android:layout_marginEnd="156dp" android:layout_marginRight="156dp" android:layout_marginTop="24dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@+id/message"/>
     <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
             android:id="@+id/githubSearchInputContainer"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="158dp"
-            app:layout_constraintTop_toBottomOf="@+id/message" android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/githubSearchSubmit" android:gravity="center">
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:layout_marginRight="16dp">
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/githubSearchInput"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:hint="Input username" tools:fontFamily="@font/montserrat" android:gravity="center"
+                android:layout_height="48dp"
+                android:hint="Input username" tools:fontFamily="@font/montserrat" android:layout_gravity="center"
+                android:gravity="center"
                 tools:textSize="14sp"/>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
@@ -57,11 +60,22 @@
             android:background="@color/colorAccent"
             android:textColor="#ffffff"
             android:visibility="visible"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/githubSearchInputContainer" android:layout_marginBottom="225dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="147dp" android:layout_marginRight="147dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="147dp"
-            android:layout_marginStart="147dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="147dp" android:layout_marginStart="147dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="147dp"
+            android:layout_marginRight="147dp" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/githubSearchInputContainer"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigationHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="bottom"
+            style="@style/BottomNavigation"
+            app:menu="@menu/navigation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:itemIconSize="24dp" app:itemIconTint="@drawable/menu_item_states"
+            app:labelVisibilityMode="unlabeled" android:addStatesFromChildren="false"
+            android:duplicateParentState="false" app:itemRippleColor="@color/colorPrimary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
