@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         }
         httpClient = new HttpClient();
         bindUI();
+        String a = "9";
         usersNotFound = true;
         githubSearchSubmit.setOnClickListener(new GithubSearchSubmitOnClickListener());
         navigationBar.setOnNavigationItemSelectedListener(new NavigationOnItemSelectedListener());
