@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="paddingInput">10dp</dimen>
-    <dimen name="smallPaddingInput">10dp</dimen>
     <dimen name="borderRadius">10dp</dimen>
 </resources>

@@ -74,7 +74,7 @@
             app:menu="@menu/navigation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:itemIconSize="24dp" app:itemIconTint="@drawable/menu_item_states"
+            app:itemIconSize="30dp" app:itemIconTint="@drawable/menu_item_states"
             app:labelVisibilityMode="unlabeled" android:addStatesFromChildren="false"
             android:duplicateParentState="false" app:itemRippleColor="@color/colorPrimary"/>
 
